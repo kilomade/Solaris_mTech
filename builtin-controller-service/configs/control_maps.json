@@ -1,0 +1,54 @@
+{
+    "esp-wroom-32": {
+        "Reference": "https://lastminuteengineers.com/esp32-pinout-reference/",
+        "pinmap": {
+            "buttonHome": null,
+            "buttonTurbo": null,
+            "buttonPause": null,
+            "buttonA": null,
+            "buttonB": null,
+            "buttonX": null,
+            "buttonY": null,
+            "buttonJoySwitchRight": null,
+            "axisXRight": null,
+            'axisYRight': null,
+            "buttonRightShoulder": null,
+            "buttonRightTrigger": null,
+            "buttonUp": null,
+            "buttonDown": null,
+            "buttonLeft": null,
+            "buttonRight": null,
+            "buttonJoySwitchLeft": null,
+            "axisXLeft": null,
+            "axisYLeft": null,
+            "buttonLeftShoulder": null,
+            "buttonLeftTrigger": null
+            }
+    },
+    "esp32-wroom-32d": {
+        "Reference": "https://docs.espressif.com/projects/esp-idf/en/latest/esp32/_images/esp32-devkitC-v4-pinout.png",
+        "pinmap": {
+            "buttonHome": null,
+            "buttonTurbo": null,
+            "buttonPause": null,
+            "buttonA": null,
+            "buttonB": null,
+            "buttonX": null,
+            "buttonY": null,
+            "buttonJoySwitchRight": null,
+            "axisXRight": null,
+            'axisYRight': null,
+            "buttonRightShoulder": null,
+            "buttonRightTrigger": null,
+            "buttonUp": null,
+            "buttonDown": null,
+            "buttonLeft": null,
+            "buttonRight": null,
+            "buttonJoySwitchLeft": null,
+            "axisXLeft": null,
+            "axisYLeft": null,
+            "buttonLeftShoulder": null,
+            "buttonLeftTrigger": null
+            }
+    }
+}

@@ -1,0 +1,7 @@
+
+
+#prereqs for Playstation
+sudo apt-get install -y libsdl2-2.0
+
+#emulator for Playstation
+sudo apt-get install -y PCSX
