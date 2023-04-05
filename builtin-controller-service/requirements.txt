@@ -1,2 +1,2 @@
-python-dev
-python3-dev
+pyserial
+python-uinput

@@ -1,0 +1,15 @@
+1. Edit the file at
+        /usr/share/X11/xorg.conf.d/40-libinput.conf
+
+2. Edit the touchscreen section to reflex below
+
+To rotate 180 degrees:
+
+Section "InputClass"
+        Identifier "libinput touchscreen catchall"
+        MatchIsTouchscreen "on"
+        Option "TransformationMatrix" "-1 0 1 0 -1 1 0 0 1"
+        MatchDevicePath "/dev/input/event*"
+        Driver "libinput"
+EndSection
+

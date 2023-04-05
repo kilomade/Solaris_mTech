@@ -1,0 +1,11 @@
+make: Leaving directory '/home/rdyn/RDYN/Solaris_mTech/rf24libs/RF24Gateway/examples/ncurses'
+
+Complete, to run the example, cd to rf24libs/RF24Gateway/examples/ncurses and enter  sudo ./RF24Gateway_ncurses
+
+
+*** Installer Complete ***
+See http://tmrh20.github.io for documentation
+See http://tmrh20.blogspot.com for info
+
+Listing files in install directory rf24libs/
+RF24  RF24Gateway  RF24Mesh  RF24Network

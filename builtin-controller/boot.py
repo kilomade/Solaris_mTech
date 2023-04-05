@@ -3,4 +3,6 @@
 #esp.osdebug(None)
 #import webrepl
 #webrepl.start()
-import pollingControllerSegment
+import pollingControllerUpdate
+
+pollingControllerUpdate.triggerService()
