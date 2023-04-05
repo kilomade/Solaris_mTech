@@ -1,16 +1,7 @@
 # Project Solaris_mTech(RDYN)
 ## Experience the Future of Gaming, Streaming, and Creativity - All in the Palm of Your Hand!
 
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
-
-Dillinger is a cloud-enabled, mobile-ready, offline-storage compatible,
-AngularJS-powered HTML5 Markdown editor.
-
-- Type some Markdown on the left
-- See HTML in the right
-- ✨Magic ✨
 
 ## Features
 
@@ -29,11 +20,6 @@ AngularJS-powered HTML5 Markdown editor.
 RDYN is a new concept of where we are enabling multi-functional hardware that is focused minimizing the footprint
 of computing technologies
 
-
-This text you see here is *actually- written in Markdown! To get a feel
-for Markdown's syntax, type some text into the left window and
-watch the results in the right.
-
 ## Tech
 
 Dillinger uses a number of open source projects to work properly:
@@ -44,137 +30,89 @@ Dillinger uses a number of open source projects to work properly:
 - []
 
 
-## Installation - VisionOS
+## Feature Descriptions
 
-Base OS: 
+Base OS: Ubuntu 22.04(Jammy Jellyfish)
 
-```sh
-cd dillinger
-npm i
-node app
-```
+Scripts Location: script/
+System Services: system-services/
 
-For production environments...
+Input Controls:
+- Controller ESP: 
+  - Purpose: Code logic for the subcontroller
+  - Type: Microppython script
+  - Code: 
+    - builtin-controller
+    - builtin-controller-circuitpython(Current)
+- Controller Emulation:
+  - Purpose: Python program that interprets inputs from the Controller ESP and emulates XBOX controller
+  - Type: Python script, Linux service[ builtincontroller.service ]
+  - Code:
+    - builtin-controller-service
+- Touchscreen Interface:
+  - Purpose: Adds support for touchscreen main display
+  - Type: Bash , Linux service[ screen-rotation.service ]
+  - Code:
+    - system-services/screen-rotation.service
+- X11VNC:
+  - Purpose: Remote desktop capability
+  - Type: Bash, Linux service[ x11-vnc-local.service ]
 
-```sh
-npm install --production
-NODE_ENV=production node app
-```
 
-## Plugins
+## Environment Build Scripts
+Location: scripts/
 
-Dillinger is currently extended with the following plugins.
-Instructions on how to use them in your own application are linked below.
+Order of Execution:
+1. System setup
+   1. Script: 1_system_setup.sh
+      1. Use Case: configures OnScreen Keyboard, AWS, and SNAP store
+2. Screen alignment
+   1. 2_screen_alignment.sh
+      1. Use Case: rotates the screen 180 to align with controller. 
+   2. 2_touch_calibration.sh
+      1. Use Case: must be implemented to align the touch screen with the rotated display
+3. Emulation foundation
+   1. 3_emulator_installation.sh
+      1. Use Case: enables GPU acceleration for MALI G610. Can optionally install
+         - RetroARch 
+         - Moonlight
+         - PCSX2
+         - PCSXReloaded
+         - RPCS3
+         - Dolphin
+   2. 3_retropie_ubuntu.sh( DO NOT USE, IW)
+      1. Use Case: custom retropie installation script that supports OrangePi 5 boards
+4. NRF Communications
+   1. 5_setup_rf24.sh( complex, needs refractoring)
+      1. Use Case: installs and configures system dependences for NRF communications under C++/Python, requires manual steps
+   2. 5_setup_rf24_2.sh( In-Use )
+      1. Use Case: automated
 
-| Plugin | README |
-| ------ | ------ |
-| Dropbox | [plugins/dropbox/README.md][PlDb] |
-| GitHub | [plugins/github/README.md][PlGh] |
-| Google Drive | [plugins/googledrive/README.md][PlGd] |
-| OneDrive | [plugins/onedrive/README.md][PlOd] |
-| Medium | [plugins/medium/README.md][PlMe] |
-| Google Analytics | [plugins/googleanalytics/README.md][PlGa] |
+
+## Linux Services
+
+The following underlying services are embedded
+
+| Plugin  | Automation | URL                                                                   | Comment                  |
+|---------|------------|-----------------------------------------------------------------------|--------------------------|
+| X11 VNC |            |                                                                       |                          |
+| Anbox   |            | [ Link ](https://www.makeuseof.com/tag/run-android-apps-games-linux/) | Android system emulation |
 
 ## Development
 
-Want to contribute? Great!
 
-Dillinger uses Gulp + Webpack for fast developing.
-Make a change in your file and instantaneously see your updates!
 
-Open your favorite Terminal and run these commands.
 
-First Tab:
+## Docker Services
 
-```sh
-node app
-```
+Services implemented using containerization
 
-Second Tab:
+| Service              | Description                                                        | Active | Ports | Internal/External | Comments                     |
+|----------------------|--------------------------------------------------------------------|-------|-------|-------------------|------------------------------|
+| SFTP                 | Used for transferring games/roms on local network                  |       |       | External          | No device level SFTP allowed |
+| Dropbox/Google Drive | Used for syncing game saves/configs                                |       |       | Internal          |                              |
+| AWS S3 Config Store  | Used for pulling in-house config specs for each supported emulator |       |       | Internal          |                              |
+| Netswarmer           | Used for remote service connections for Streaming                  |       |       | Internal          |                              |
+|                      |                                                                    |       |       |                   |                              |
 
-```sh
-gulp watch
-```
 
-(optional) Third:
-
-```sh
-karma test
-```
-
-#### Building for source
-
-For production release:
-
-```sh
-gulp build --prod
-```
-
-Generating pre-built zip archives for distribution:
-
-```sh
-gulp build dist --prod
-```
-
-## Docker
-
-Dillinger is very easy to install and deploy in a Docker container.
-
-By default, the Docker will expose port 8080, so change this within the
-Dockerfile if necessary. When ready, simply use the Dockerfile to
-build the image.
-
-```sh
-cd dillinger
-docker build -t <youruser>/dillinger:${package.json.version} .
-```
-
-This will create the dillinger image and pull in the necessary dependencies.
-Be sure to swap out `${package.json.version}` with the actual
-version of Dillinger.
-
-Once done, run the Docker image and map the port to whatever you wish on
-your host. In this example, we simply map port 8000 of the host to
-port 8080 of the Docker (or whatever port was exposed in the Dockerfile):
-
-```sh
-docker run -d -p 8000:8080 --restart=always --cap-add=SYS_ADMIN --name=dillinger <youruser>/dillinger:${package.json.version}
-```
-
-> Note: `--capt-add=SYS-ADMIN` is required for PDF rendering.
-
-Verify the deployment by navigating to your server address in
-your preferred browser.
-
-```sh
-127.0.0.1:8000
-```
-
-## License
-
-MIT
-
-**Free Software, Hell Yeah!**
-
-[//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
-
-   [dill]: <https://github.com/joemccann/dillinger>
-   [git-repo-url]: <https://github.com/joemccann/dillinger.git>
-   [john gruber]: <http://daringfireball.net>
-   [df1]: <http://daringfireball.net/projects/markdown/>
-   [markdown-it]: <https://github.com/markdown-it/markdown-it>
-   [Ace Editor]: <http://ace.ajax.org>
-   [node.js]: <http://nodejs.org>
-   [Twitter Bootstrap]: <http://twitter.github.com/bootstrap/>
-   [jQuery]: <http://jquery.com>
-   [@tjholowaychuk]: <http://twitter.com/tjholowaychuk>
-   [express]: <http://expressjs.com>
-   [AngularJS]: <http://angularjs.org>
-   [Gulp]: <http://gulpjs.com>
-
-   [PlDb]: <https://github.com/joemccann/dillinger/tree/master/plugins/dropbox/README.md>
-   [PlGh]: <https://github.com/joemccann/dillinger/tree/master/plugins/github/README.md>
-   [PlGd]: <https://github.com/joemccann/dillinger/tree/master/plugins/googledrive/README.md>
-   [PlOd]: <https://github.com/joemccann/dillinger/tree/master/plugins/onedrive/README.md>
-   [PlMe]: <https://github.com/joemccann/dillinger/tree/master/plugins/medium/README.md>
-   [PlGa]: <https://github.com/RahulHP/dillinger/blob/master/plugins/googleanalytics/README.md>
