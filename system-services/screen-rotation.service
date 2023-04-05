@@ -1,0 +1,11 @@
+[Unit]
+Description=ScreenLoginRotation
+After=network.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=xrandr -display :0.0 --output HDMI-1 --rotate inverted
+
+[Install]
+WantedBy=default.target

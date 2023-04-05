@@ -1,0 +1,12 @@
+[Unit]
+Description=X11RemoteService
+After=network.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=x11vnc -auth guess -forever -loop -noxdamage -repeat -rfbport 5900 -shared
+
+
+[Install]
+WantedBy=default.target
